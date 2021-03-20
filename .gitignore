@@ -6,4 +6,4 @@ client/next-env.d.ts
 client/.gitignore
 client/.DS_Store
 client/README.md
-.gitignore
+gitignore
