@@ -1,0 +1,3 @@
+[submodule "frontendsonglink"]
+	path = frontendsonglink
+	url = https://github.com/lastnameswayne/frontendsonglink.git
