@@ -35,6 +35,7 @@ function Index(): JSX.Element {
 
   const [showOverLay, setShowOverLay] = useState<boolean>(true)
 
+  const BACKEND_URL = "https://leetbattle.herokuapp.com"
   const socket = io.connect("https://leetbattle.herokuapp.com");
 
   //fires when a player types in the code-editor
@@ -60,7 +61,7 @@ function Index(): JSX.Element {
     socket.emit("submit", gameCode, playerNumber);
     axios({
       method: "POST",
-      url: "https://leetbattle.herokuapp.com/submit",
+      url: BACKEND_URL+"/submit",
       data: { code },
     }).catch((error) => {
       console.log(error);
@@ -74,7 +75,7 @@ function Index(): JSX.Element {
     socket.emit("run", gameCode, playerNumber);
     axios({
       method: "POST",
-      url: "https://leetbattle.herokuapp.com/run",
+      url: BACKEND_URL+"/run",
       data: { code },
     }).catch((error) => {
       console.log(error);
