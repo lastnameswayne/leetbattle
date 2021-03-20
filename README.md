@@ -15,7 +15,7 @@ Created by <a href="https://www.twitter.com/lastnameswayne">@lastnameswayne</a> 
 
 ### Features needed📦
 - Darkmode
-- More languages (only Python3 supported right now=
+- More languages (only Python3 supported right now)
 - User accoutns?
 
 ### Technology
