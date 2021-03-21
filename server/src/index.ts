@@ -27,12 +27,17 @@ const cors = require("cors");
   const server = require("http").createServer(app);
   const io = require("socket.io")(server, {
     cors: {
-      origin: '*', //allow everything
+      origin: 'https://leetbattle.vercel.app',
+      'Access-Control-Allow-Credentials': true,
       methods: ["GET", "POST"],
+      transports: ['websocket', 'polling'],
+      credentials: true,
+      crossorigin: true
     },
     forceNew: true,
     reconnection: false,
     perMessageDeflate: false,
+    allowEIO3: true
   });
 
   const axios = require("axios");
@@ -153,11 +158,15 @@ const cors = require("cors");
       playerNumberRun = playerNumber
       roomNameRun = roomName
       app.route("/run").post((req: any, res: any) => { 
+        res.header("Access-Control-Allow-Origin", "*");
         data.source_code = req.body.code.code;
         axios({
           url: process.env.VM_URL,
           method: "POST",
           data: data,
+          headers: { 
+            "Content-Type": "application/x-www-form-urlencoded"
+          }
         })
           .then(async (req: any, res: any) => {
             //first call generates a token
@@ -173,6 +182,7 @@ const cors = require("cors");
                 output.codeOutput = req.data.stdout;
                 output.errorOutput = req.data.stderr;
                 sendCode(roomNameRun, output, playerNumberRun);
+
               })
           })
           .catch((err: Error) => {
@@ -201,6 +211,7 @@ const cors = require("cors");
       playerNumberSubmit = playerNumber
 
       app.route("/submit").post((req: any, res: any) => {
+        res.header("Access-Control-Allow-Origin", "*");
         //adding all testcases and printing them to check the solution
         const input: any = `${req.body.code.code}        
       
@@ -234,6 +245,9 @@ const cors = require("cors");
           url: process.env.VM_URL,
           method: "POST",
           data: data,
+          headers: {
+
+          }
         })
           .then(async (req: any, res: any) => {
             //first call generates a token
