@@ -19,6 +19,7 @@ const cors = require("cors");
   let code;
   let codeOutput: string = "";
   let errorOutput: string = "";
+  let roomNameRun: string = "";
 
   const app = express();  
   app.use(cors());
@@ -26,10 +27,11 @@ const cors = require("cors");
   const server = require("http").createServer(app);
   const io = require("socket.io")(server, {
     cors: {
-      origin: 'http://localhost:3000', //allow everything
+      origin: '*', //allow everything
       methods: ["GET", "POST"],
     },
     forceNew: true,
+    reconnection: false,
     perMessageDeflate: false,
   });
 
@@ -149,6 +151,7 @@ const cors = require("cors");
 
     const handleRun = async (roomName: string, playerNumber: string) => {
       playerNumberRun = playerNumber
+      roomNameRun = roomName
       app.route("/run").post((req: any, res: any) => { 
         data.source_code = req.body.code.code;
         axios({
@@ -169,11 +172,11 @@ const cors = require("cors");
                 }
                 output.codeOutput = req.data.stdout;
                 output.errorOutput = req.data.stderr;
-                sendCode(roomName, output, playerNumberRun);
+                sendCode(roomNameRun, output, playerNumberRun);
               })
           })
           .catch((err: Error) => {
-            io.to(roomName).emit("serverError", playerNumberRun);
+            io.to(roomNameRun).emit("serverError", playerNumberRun);
             console.log(err);
           });
       });
