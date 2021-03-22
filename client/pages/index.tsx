@@ -64,9 +64,6 @@ function Index(): JSX.Element {
     axios({
       method: "POST",
       url: BACKEND_URL+"/submit",
-      headers: { 
-        "Content-Type": "application/x-www-form-urlencoded"
-      },  
       data: { code },
     }).catch((error) => {
       console.log(error);
@@ -81,7 +78,6 @@ function Index(): JSX.Element {
     axios({
       method: "POST",
       url: BACKEND_URL+"/run",
-      headers: {'Content-Type': 'application/json', crossorigin:true},
       data: { code },
     }).catch((error) => {
       console.log(error);
@@ -250,12 +246,13 @@ function Index(): JSX.Element {
     }
   };
 
-  const handleServerError = (playerNumberReceived: string) => {
+  const handleServerError = (playerNumberReceived: string, err: string) => {
     if (playerNumber === playerNumberReceived) {
       setSubmitIsLoading(false);
       setRunIsLoading(false);
       toast({
         title: "Wrong input error!",
+        description: err,
         status: "error",
         duration: 4000,
         isClosable: true,

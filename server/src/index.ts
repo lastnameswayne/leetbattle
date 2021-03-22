@@ -27,12 +27,10 @@ const cors = require("cors");
   const server = require("http").createServer(app);
   const io = require("socket.io")(server, {
     cors: {
-      origin: 'https://leetbattle.vercel.app',
-      'Access-Control-Allow-Credentials': true,
-      methods: ["GET", "POST"],
+      origin: "*",//'https://leetbattle.vercel.app', 
+      methods: ["GET, POST"],
       transports: ['websocket', 'polling'],
-      credentials: true,
-      crossorigin: true
+      credentials: true
     },
     forceNew: true,
     reconnection: false,
@@ -164,9 +162,6 @@ const cors = require("cors");
           url: process.env.VM_URL,
           method: "POST",
           data: data,
-          headers: { 
-            "Content-Type": "application/x-www-form-urlencoded"
-          }
         })
           .then(async (req: any, res: any) => {
             //first call generates a token
@@ -182,7 +177,6 @@ const cors = require("cors");
                 output.codeOutput = req.data.stdout;
                 output.errorOutput = req.data.stderr;
                 sendCode(roomNameRun, output, playerNumberRun);
-
               })
           })
           .catch((err: Error) => {
@@ -245,9 +239,6 @@ const cors = require("cors");
           url: process.env.VM_URL,
           method: "POST",
           data: data,
-          headers: {
-
-          }
         })
           .then(async (req: any, res: any) => {
             //first call generates a token
