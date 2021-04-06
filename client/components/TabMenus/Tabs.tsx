@@ -2,21 +2,27 @@ import {
   TabList,
   TabPanel,
   TabPanels,
-  Tabs,
   Tab,
   Button,
   Text,
   Code,
   Textarea,
   Box,
+  Tabs,
 } from "@chakra-ui/react";
 import React from "react";
 import BoldText from "../Text/BoldText";
 import CodeArea from "../Text/CodeArea";
 
-const TabMenu = (props) => {
+interface TabMenuProps {
+  errorStatus: boolean;
+  error: string;
+  output: string;
+}
+
+const TabMenu = ({ errorStatus, error, output }: TabMenuProps) => {
   const StatusText = (props) => {
-    if (props.errorStatus) {
+    if (errorStatus) {
       return (
         <Text fontSize="xl" textColor="#D81C60" mb={2}>
           Error
@@ -59,7 +65,7 @@ const TabMenu = (props) => {
       </TabList>
       <TabPanels>
         <TabPanel>
-          <StatusText errorStatus={props.errorStatus}></StatusText>
+          <StatusText errorStatus={errorStatus}></StatusText>
 
           {
             //<BoldText text = "Your input cond. rendr"></BoldText>
@@ -67,16 +73,16 @@ const TabMenu = (props) => {
           }
           <BoldText text="Output:"></BoldText>
           <CodeArea>
-            <Text p={1}>{props.output ? props.output : ""}</Text>
+            <Text p={1}>{output ? output : ""}</Text>
           </CodeArea>
 
-          {props.errorStatus ? (
+          {errorStatus ? (
             <>
               <Text textColor="#D81C60" fontWeight="bold">
                 Error:
               </Text>
               <CodeArea textColor="#D81C60" mb={3}>
-                <Text p={1}>{props.error ? props.error : ""}</Text>
+                <Text p={1}>{error ? error : ""}</Text>
               </CodeArea>
             </>
           ) : (

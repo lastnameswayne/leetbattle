@@ -12,7 +12,7 @@ import { modalTypes } from "../../types";
 import SecondaryButton from "../Buttons/SecondaryButton";
 
 interface lostModalType extends modalTypes {
-  onLeave: () => void;
+  onLeave?: () => void;
   isOpenLost: boolean;
 }
 

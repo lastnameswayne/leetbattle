@@ -12,16 +12,7 @@ import PrimaryButton from "../components/Buttons/PrimaryButton";
 import SecondaryButton from "../components/Buttons/SecondaryButton";
 import IntroNavBar from "../components/NavBars/IntroNavBar";
 import ChooseProblemModal from "../components/Modals/ChooseProblemModal";
-import { modalTypes } from "../types";
-
-interface _connectProps extends modalTypes {
-  isOpen;
-  onClose;
-  newGame;
-  onOpen;
-  handleChange: React.ChangeEventHandler<HTMLInputElement>;
-  joinGame: () => void;
-}
+import { _connectProps } from "../types";
 
 const ConnectPage = ({
   isOpen,
@@ -61,7 +52,6 @@ const ConnectPage = ({
           <Center>
             <PrimaryButton
               text="Create game"
-              bg="#F28A3A"
               h="40px"
               w="140px"
               onClick={onOpen}
@@ -79,7 +69,6 @@ const ConnectPage = ({
               text="Join game"
               w="140px"
               h="40px"
-              bg="#0586E8"
               isLoading={loading}
               onClick={() => {
                 setLoading(true);

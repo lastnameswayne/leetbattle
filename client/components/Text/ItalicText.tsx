@@ -1,14 +1,15 @@
 import { Box } from "@chakra-ui/react";
 import React from "react";
+import { TextType } from "../../types";
 
-const ItalicText = (props) => {
+const ItalicText = ({ text }: TextType) => {
   return (
     <>
-     <Box as="span" fontStyle="italic">
-         {props.text} 
-        </Box>
+      <Box as="span" fontStyle="italic">
+        {text}
+      </Box>
     </>
   );
- }
+};
 
 export default ItalicText;

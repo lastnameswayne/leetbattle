@@ -10,11 +10,11 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React from "react";
-import NextLink from "next/link";
 import QuitModal from "../Modals/QuitModal";
 import LeaveButton from "../Buttons/LeaveButton";
-import { MoonIcon, SunIcon } from "@chakra-ui/icons";
-const NavBar = (props) => {
+import { NavBarTypes } from "../../types";
+
+const NavBar = ({ onLeave, elapsedTime }: NavBarTypes) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -28,7 +28,7 @@ const NavBar = (props) => {
     >
       <Box ml={"auto"}>
         <QuitModal
-          onLeave={props.onLeave}
+          onLeave={onLeave}
           isOpen={isOpen}
           onClose={onClose}
         ></QuitModal>
@@ -38,7 +38,7 @@ const NavBar = (props) => {
           </Heading>
           <Spacer />
           <Text as="u" fontSize="2xl">
-            {props.elapsedTime}
+            {elapsedTime}
           </Text>
           <Spacer />
           <LeaveButton
@@ -47,9 +47,7 @@ const NavBar = (props) => {
             text="Quit"
             fontSize="14px"
             onClick={onOpen}
-          >
-            Quit
-          </LeaveButton>
+          ></LeaveButton>
         </Center>
       </Box>
     </Box>

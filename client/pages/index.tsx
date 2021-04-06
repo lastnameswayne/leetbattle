@@ -264,7 +264,7 @@ function Index(): JSX.Element {
           active={youWon}
           //tabMenu
           joined={joined}
-          onChange={(index) => setTabIndex(index)}
+          onChange={(index: number) => setTabIndex(index)}
           index={tabIndex}
           created={created}
           seconds={seconds}

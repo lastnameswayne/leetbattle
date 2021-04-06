@@ -4,17 +4,30 @@ import {
   ModalBody,
   ModalContent,
   ModalOverlay,
-  Text
+  Text,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React, { useState } from "react";
+import { modalTypes } from "../../types";
 import PrimaryButton from "../Buttons/PrimaryButton";
 
-const SuccesModal = (props) => {
+interface succesModalTypes extends modalTypes {
+  isOpenWon: boolean;
+  onLeave?: () => void;
+  onOpen: () => void;
+  time: string;
+}
+
+const SuccesModal = ({
+  isOpenWon,
+  onClose,
+  onLeave,
+  time,
+}: succesModalTypes) => {
   const [loading, setLoading] = useState(false);
   return (
     <>
-      <Modal isOpen={props.isOpenWon} onClose={props.onClose}>
+      <Modal isOpen={isOpenWon} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalBody>
@@ -22,8 +35,7 @@ const SuccesModal = (props) => {
               <Text fontSize="6xl">🏆</Text>
             </Center>
             <Text align="center">
-              Correct answer! You beat your opponent in {" "}
-              {props ? props.time : ""}!
+              Correct answer! You beat your opponent in {time ? time : ""}!
             </Text>
           </ModalBody>
           <Center p={4}>
@@ -35,7 +47,7 @@ const SuccesModal = (props) => {
                 w="140px"
                 onClick={() => {
                   setLoading(true);
-                  props.onLeave;
+                  onLeave();
                   window.location.reload();
                 }}
               ></PrimaryButton>

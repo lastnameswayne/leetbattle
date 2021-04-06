@@ -10,14 +10,19 @@ import {
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React, { useState } from "react";
+import { modalTypes } from "../../types";
 import LeaveButton from "../Buttons/LeaveButton";
 
-const QuitModal = (props) => {
+interface quitModalTypes extends modalTypes {
+  onLeave: () => void;
+}
+
+const QuitModal = ({ isOpen, onClose, onLeave }: quitModalTypes) => {
   const [loading, setLoading] = useState(false);
 
   return (
     <>
-      <Modal isOpen={props.isOpen} onClose={props.onClose}>
+      <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton variant="outline" textColor="black" />
@@ -40,7 +45,7 @@ const QuitModal = (props) => {
                 isLoading={loading}
                 onClick={() => {
                   setLoading(true);
-                  props.onLeave();
+                  onLeave();
                   window.location.reload();
                 }}
               ></LeaveButton>

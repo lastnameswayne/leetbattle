@@ -1,7 +1,8 @@
 import { Box } from "@chakra-ui/react";
 import React from "react";
+import { TextType } from "../../types";
 
-const CodeText = (props) => {
+const CodeText = ({ text }: TextType) => {
   return (
     <>
       <Box
@@ -13,10 +14,10 @@ const CodeText = (props) => {
         textColor="#546E7A"
         as="span"
       >
-        {props.text}
+        {text}
       </Box>
     </>
   );
- }
+};
 
 export default CodeText;

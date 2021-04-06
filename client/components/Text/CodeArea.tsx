@@ -6,7 +6,7 @@ const CodeArea = (props) => {
     <>
       <Box
         fontFamily="Menlo"
-        fontSize="13.5px"      
+        fontSize="13.5px"
         borderRadius={1}
         textColor={props.textColor}
         h={120}
