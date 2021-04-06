@@ -12,16 +12,33 @@ import PrimaryButton from "../components/Buttons/PrimaryButton";
 import SecondaryButton from "../components/Buttons/SecondaryButton";
 import IntroNavBar from "../components/NavBars/IntroNavBar";
 import ChooseProblemModal from "../components/Modals/ChooseProblemModal";
+import { modalTypes } from "../types";
 
-const ConnectPage = (props): JSX.Element => {
+interface _connectProps extends modalTypes {
+  isOpen;
+  onClose;
+  newGame;
+  onOpen;
+  handleChange: React.ChangeEventHandler<HTMLInputElement>;
+  joinGame: () => void;
+}
+
+const ConnectPage = ({
+  isOpen,
+  onClose,
+  newGame,
+  onOpen,
+  handleChange,
+  joinGame,
+}: _connectProps) => {
   const [loading, setLoading] = useState(false);
   return (
     <Box>
       <IntroNavBar></IntroNavBar>
       <ChooseProblemModal
-        isOpen={props.isOpen}
-        onClose={props.onClose}
-        handleCreate={props.newGame}
+        isOpen={isOpen}
+        onClose={onClose}
+        handleCreate={newGame}
       ></ChooseProblemModal>
       <Container p={5}>
         <Box
@@ -47,7 +64,7 @@ const ConnectPage = (props): JSX.Element => {
               bg="#F28A3A"
               h="40px"
               w="140px"
-              onClick={props.onOpen}
+              onClick={onOpen}
             ></PrimaryButton>
           </Center>
           <Divider></Divider>
@@ -56,7 +73,7 @@ const ConnectPage = (props): JSX.Element => {
               or with gamecode:
             </Text>
           </Center>
-          <Input isRequired={true} mb={3} onChange={props.handleChange}></Input>
+          <Input isRequired={true} mb={3} onChange={handleChange}></Input>
           <Center>
             <SecondaryButton
               text="Join game"
@@ -65,8 +82,8 @@ const ConnectPage = (props): JSX.Element => {
               bg="#0586E8"
               isLoading={loading}
               onClick={() => {
-                setLoading(true)
-                props.joinGame()
+                setLoading(true);
+                joinGame();
               }}
             ></SecondaryButton>
           </Center>

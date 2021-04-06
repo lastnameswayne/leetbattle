@@ -15,8 +15,14 @@ import {
 import React, { useState } from "react";
 import PrimaryButton from "../Buttons/PrimaryButton";
 import ProblemCard from "../ProblemCard";
+import { modalTypes } from "../../types";
 
-const ChooseProblemModal = (props) => {
+const ChooseProblemModal = ({
+  isOpen,
+  onClose,
+  text,
+  handleCreate,
+}: modalTypes) => {
   const [loading, setLoading] = useState(false);
 
   const options = ["Two Sum", "Coming soon!", "Coming soon v2!"];
@@ -30,7 +36,7 @@ const ChooseProblemModal = (props) => {
 
   return (
     <>
-      <Modal size="xl" isOpen={props.isOpen} onClose={props.onClose}>
+      <Modal size="xl" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalCloseButton textColor="black" />
@@ -48,7 +54,7 @@ const ChooseProblemModal = (props) => {
                             {value}
                           </Text>
                         </Flex>
-                        <Text>{props.text}</Text>
+                        <Text>{text}</Text>
                       </Container>
                     </Flex>
                   </ProblemCard>
@@ -64,7 +70,7 @@ const ChooseProblemModal = (props) => {
               isLoading={loading}
               onClick={() => {
                 setLoading(true);
-                props.handleCreate();
+                handleCreate();
               }}
             ></PrimaryButton>
           </Center>

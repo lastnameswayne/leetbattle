@@ -8,13 +8,19 @@ import {
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React, { useState } from "react";
+import { modalTypes } from "../../types";
 import SecondaryButton from "../Buttons/SecondaryButton";
 
-const LostModal = (props) => {
+interface lostModalType extends modalTypes {
+  onLeave: () => void;
+  isOpenLost: boolean;
+}
+
+const LostModal = ({ onClose, onLeave, isOpenLost }: lostModalType) => {
   const [loading, setLoading] = useState(false);
   return (
     <>
-      <Modal isOpen={props.isOpenLost} onClose={props.onClose}>
+      <Modal isOpen={isOpenLost} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
           <ModalBody>
@@ -27,13 +33,12 @@ const LostModal = (props) => {
             <NextLink href="/">
               <SecondaryButton
                 text="Try again"
-                bg="#F28A3A"
                 h="40px"
                 isLoading={loading}
                 w="140px"
                 onClick={() => {
                   setLoading(true);
-                  props.onLeave;
+                  onLeave;
                   window.location.reload();
                 }}
               ></SecondaryButton>

@@ -6,7 +6,7 @@ import {
   Menu,
   MenuButton,
   MenuList,
-  Text
+  Text,
 } from "@chakra-ui/react";
 import React from "react";
 

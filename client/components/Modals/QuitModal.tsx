@@ -1,18 +1,12 @@
 import {
-  Flex, Modal,
-
-
-
-
+  Flex,
+  Modal,
   ModalBody,
-  ModalCloseButton, ModalContent,
-  ModalHeader, ModalOverlay,
-
-
-
-
-
-  Text
+  ModalCloseButton,
+  ModalContent,
+  ModalHeader,
+  ModalOverlay,
+  Text,
 } from "@chakra-ui/react";
 import NextLink from "next/link";
 import React, { useState } from "react";
@@ -44,15 +38,12 @@ const QuitModal = (props) => {
                 text="Quit"
                 fontSize="16px"
                 isLoading={loading}
-                mr={3}
                 onClick={() => {
                   setLoading(true);
                   props.onLeave();
                   window.location.reload();
                 }}
-              >
-                Quit
-              </LeaveButton>
+              ></LeaveButton>
             </NextLink>
           </Flex>
         </ModalContent>

@@ -1,52 +1,51 @@
 import { ChakraProvider, useDisclosure, useToast } from "@chakra-ui/react";
-import axios from "axios";
 import React, { useState } from "react";
 import io from "socket.io-client";
 import ConnectPage from "./_connect";
 import Main from "./_main";
+import { output } from "../types";
 
 function Index(): JSX.Element {
   const [code, setCode] = useState("def two_sum(nums, target):"); //initial code for Two-Sum
   const [outputReceived, setOutputReceived] = useState(""); //sets output of the code ran
   const [error, setError] = useState(""); //sets any errors received
-  const [errorStatus, setErrorStatus] = useState<Boolean>(null); //tracks if there is an error
+  const [errorStatus, setErrorStatus] = useState<boolean>(null); //tracks if there is an error
   const [gameCode, setGameCode] = useState(""); //gamecode of the game
   const [gameCodeInput, setGameCodeInput] = useState(""); //gamecode input of connect
-  const [showConnect, setShowConnect] = useState<boolean>(true); //checks whether to show the connect-screen
+  const [showConnect, setShowConnect] = useState(true); //checks whether to show the connect-screen
   let [playerNumber, setPlayerNumber] = useState(""); //player number of each player joined
-  
+
   const toast = useToast(); //toast hook to display toasts
 
   const [created, setCreated] = useState(false); //handles whether you created the game
-  const [joined, setJoined] = useState(false); //handles whether you joined the game 
+  const [joined, setJoined] = useState(false); //handles whether you joined the game
 
   const [youLost, setYouLost] = useState(false); //handles when a player loses
   const [youWon, setYouWon] = useState(false); //handles when a player wins
 
   const [runIsLoading, setRunIsLoading] = useState(false); //handles loading animation for run button
   const [submitIsLoading, setSubmitIsLoading] = useState(false); //handles loading animation for the submit button
-  const [joinIsLoading, setJoinIsLoading] = useState(false) //handles loading for join game button
 
-  const [seconds, setSeconds] = useState<number>(10); //sets the initial countdown
-  let [isActive, setIsActive] = useState<Boolean>(true); //handles whether the timer should run or not
+  const [seconds, setSeconds] = useState(10); //sets the initial countdown
   const [currentTime, setCurrentTime] = useState(`00:00`); //handles the timer in the navbar
 
   const { isOpen, onOpen, onClose } = useDisclosure(); //handles closing an opening modals
-  const [tabIndex, setTabIndex] = React.useState(1) //handles setting the index of the problem-tabmenu
+  const [tabIndex, setTabIndex] = React.useState(1); //handles setting the index of the problem-tabmenu
 
-  const [showOverLay, setShowOverLay] = useState<boolean>(true)
+  const [showOverLay, setShowOverLay] = useState(true);
 
-  const BACKEND_URL: string = "https://leetbattle.herokuapp.com"
-  const DEV_URL: string = "http://localhost:4000"
-  const socket = io.connect(BACKEND_URL, {'transports': ['websocket']});
+  let isActive = true; //handles whether the timer should run or not
+  const BACKEND_URL: string = "https://leetbattle.herokuapp.com";
+  const DEV_URL: string = "http://localhost:4000";
+  const socket = io.connect(DEV_URL, { transports: ["websocket"] });
 
   //fires when a player types in the code-editor
-  function onChangeCodeInput(newValue) {
+  function onChangeCodeInput(newValue: string) {
     setCode(newValue);
   }
 
   //fires when gamecode is inputted in the connect-page
-  const handleChange = (event) => {
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (!event.target) {
       return;
     }
@@ -58,37 +57,19 @@ function Index(): JSX.Element {
   //_________________________________
 
   //runs when a player submits their code
-  const onSubmit = async (code) => {
+  const onSubmit = async (code: string) => {
     setSubmitIsLoading(true);
-    socket.emit("submit", gameCode, playerNumber);
-    axios({
-      method: "POST",
-      url: BACKEND_URL+"/submit",
-      data: { code },
-      withCredentials: true
-    }).catch((error) => {
-      console.log(error);
-      setSubmitIsLoading(false);
-    });
+    socket.emit("submit", gameCode, playerNumber, code);
   };
 
   //runs when a player runs their code
-  const onExecute = async (code) => {
+  const onExecute = async (code: string) => {
     setRunIsLoading(true);
-    socket.emit("run", gameCode, playerNumber);
-    axios({
-      method: "POST",
-      url: BACKEND_URL+"/run",
-      data: { code },
-      withCredentials: true,
-    }).catch((error) => {
-      console.log(error);
-      setRunIsLoading(false);
-    });
+    socket.emit("run", gameCode, playerNumber, code);
   };
 
   //leaves a game
-  const leaveGame = (roomName) => {
+  const leaveGame = (roomName: string) => {
     socket.emit("disconnectClient", roomName);
   };
 
@@ -107,7 +88,7 @@ function Index(): JSX.Element {
   //_________________________________
 
   //fires when server creates a game
-  const handleCreate = (number, roomName) => {
+  const handleCreate = (number: string, roomName: string) => {
     playerNumber = number;
     setPlayerNumber(number);
 
@@ -137,7 +118,6 @@ function Index(): JSX.Element {
 
   //fires when the game code is the empty string
   const handleNoCode = () => {
-
     toast({
       title: "Couldn't join",
       description: "No code inputted",
@@ -161,9 +141,9 @@ function Index(): JSX.Element {
   };
 
   //fires when the server let's a player join
-  const handleJoin = (number, roomName) => {
+  const handleJoin = (number: string, roomName: string) => {
     setPlayerNumber(number);
-    playerNumber=number
+    playerNumber = number;
     setJoined(true);
     setGameCode(roomName);
     setShowConnect(false);
@@ -177,45 +157,44 @@ function Index(): JSX.Element {
   };
 
   //initial countdown from 10s when both players join
-  const handleCountDown10 = (timer) => {
+  const handleCountDown10 = (timer: number) => {
     setSeconds(timer);
   };
 
   //actual timer running when the game starts
-  const handleTimer = (time) => {
+  const handleTimer = (time: number) => {
     console.log("game start");
-    setShowOverLay(false)
-    setTabIndex(0)
-    let minutes = ""+Math.floor(time / 60);
-    let sec = ""+time%60
-    if (time%60 < 10) {
-      sec = "0"+sec
+    setShowOverLay(false);
+    setTabIndex(0);
+    let minutes = "" + Math.floor(time / 60);
+    let sec = "" + (time % 60);
+    if (time % 60 < 10) {
+      sec = "0" + sec;
     }
-    if ((time/60) < 10) {
-      minutes = "0"+minutes
+    if (time / 60 < 10) {
+      minutes = "0" + minutes;
     }
     setCurrentTime(`${minutes}:${sec}`);
   };
 
   //fires when the server has code to send
-  const handleReceiveCode = (output, playerNumberReceived: string) => {
+  const handleReceiveCode = (output: output, playerNumberReceived: string) => {
     if (playerNumber === playerNumberReceived) {
-    setRunIsLoading(false);
-    setSubmitIsLoading(false);
-    setOutputReceived(output.codeOutput);
-    setError(output.errorOutput);
-    if (output.errorOutput) {
-      setErrorStatus(true);
-    } else {
-      setErrorStatus(false);
+      setRunIsLoading(false);
+      setSubmitIsLoading(false);
+      setOutputReceived(output.codeOutput);
+      setError(output.errorOutput);
+      if (output.errorOutput) {
+        setErrorStatus(true);
+      } else {
+        setErrorStatus(false);
+      }
     }
-  }
   };
 
   //fires if the server finds a winner
   const handleWinner = (playerNumberWinner: string) => {
-    setIsActive(false);
-    isActive=false;
+    isActive = false;
     setRunIsLoading(false);
     setSubmitIsLoading(false);
     if (playerNumberWinner === playerNumber) {
@@ -223,7 +202,9 @@ function Index(): JSX.Element {
     } else {
       setYouLost(true);
     }
-    {leaveGame}
+    {
+      leaveGame;
+    }
   };
 
   //user submitted wrong answer
@@ -284,7 +265,7 @@ function Index(): JSX.Element {
           //tabMenu
           joined={joined}
           onChange={(index) => setTabIndex(index)}
-          index = {tabIndex}
+          index={tabIndex}
           created={created}
           seconds={seconds}
           gameCode={gameCode}
@@ -292,13 +273,13 @@ function Index(): JSX.Element {
           runIsLoading={runIsLoading}
           submitIsLoading={submitIsLoading}
           onExecute={() => {
-            onExecute({ code });
+            onExecute(code);
           }}
           onSubmit={() => {
-            onSubmit({ code });
+            onSubmit(code);
           }}
           //editor
-          isActive={showOverLay}
+          isActive={false}
           secondsEditor={seconds}
           code={code}
           onChangeCodeInput={onChangeCodeInput}
@@ -316,7 +297,9 @@ function Index(): JSX.Element {
         isOpen={isOpen}
         onOpen={onOpen}
         handleChange={handleChange}
-        joinGame={() => {joinGame()}}
+        joinGame={() => {
+          joinGame();
+        }}
         onClose={onClose}
       ></ConnectPage>
     );
