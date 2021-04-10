@@ -9,7 +9,6 @@ import ProblemTabMenu from "../components/TabMenus/ProblemTabMenu";
 import TabMenu from "../components/TabMenus/Tabs";
 import { MainProps } from "../types";
 const Editor = dynamic(() => import("../components/Editor"));
-
 const Main = ({
   onLeave,
   elapsedTime,
@@ -41,6 +40,7 @@ const Main = ({
     { value: "java", label: "Java" },
   ];
   const [selectedOption, setSelectedOption] = useState(null);
+
   return (
     <>
       <NavBar onLeave={onLeave} elapsedTime={elapsedTime}></NavBar>

@@ -1,3 +1,4 @@
+import { ModalBodyProps } from "@chakra-ui/react";
 import { FormEventHandler } from "react";
 
 export interface output {
@@ -45,10 +46,10 @@ export interface MainProps extends NavBarTypes {
   onSubmit: (code: string) => void;
   isActive: boolean;
   secondsEditor: number;
-  onChangeCodeInput;
-  errorStatus;
-  error;
-  outputReceived;
+  onChangeCodeInput: () => void;
+  errorStatus: boolean;
+  error: string;
+  outputReceived: string;
 }
 
 export interface _connectProps extends modalTypes {
