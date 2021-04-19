@@ -5,6 +5,10 @@ import makeId from "./const/makeId";
 import "dotenv/config";
 import compareStrings from "./const/util/compareStrings";
 import data from "../src/const/dataObject";
+import {
+  testcasesTwoSum,
+  testcaseAnswersTwoSum,
+} from "../src/const/answerobjects";
 import { Request, output } from "../src/types";
 import { Socket } from "socket.io";
 //import { buildSchema } from "type-graphql";
@@ -49,27 +53,6 @@ const cors = require("cors");
   });
 
   const axios = require("axios");
-
-  const testcasesTwoSum = new Map<string, string>([
-    ["testcase1arr", "[2,7,11,15]"],
-    ["testcase1target", "9"],
-    ["testcase2arr", "[-3,4,3,90]"],
-    ["testcase2target", "0"],
-    ["testcase3arr", "[100,4,657,999,1,5,10,8,5,4,10]"],
-    ["testcase3target", "1656"],
-    ["testcase4arr", "[-500,4,3,60,40,0]"],
-    ["testcase4target", "100"],
-    ["testcase5arr", "[-500,4,3,60,40,0]"],
-    ["testcase5target", "-496"],
-  ]);
-
-  const testcaseAnswersTwoSum: string[] = [
-    "[0, 1]",
-    "[0, 2]",
-    "[2, 3]",
-    "[4, 3]",
-    "[0, 1]",
-  ];
 
   const output: output = {
     codeOutput: codeOutput,
